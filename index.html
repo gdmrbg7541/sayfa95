@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>أنشطة اللغة العربية</title>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic:wght@400;700&display=swap" rel="stylesheet">
+    <title>قيمي - تمرين الاختبار</title>
+    <link href="https://fonts.googleapis.com/css2?family=Markazi+Text:wght@400;700&display=swap" rel="stylesheet">
     
     <style>
         /* --- Temel Sayfa Stilleri --- */
@@ -13,7 +13,9 @@
             --success-color: #28a745;
             --danger-color: #dc3545;
             --bg-light: #f8f9fa;
-            --font-arabic: 'Noto Naskh Arabic', 'Tahoma', 'Arial', sans-serif;
+            --font-arabic: 'Markazi Text', 'Tahoma', 'Arial', sans-serif;
+            --btn-bg: #f0f0f0;
+            --btn-hover: #e0e0e0;
         }
 
         body {
@@ -28,7 +30,7 @@
             font-weight: 400;
         }
 
-        /* --- Ana Etkinlik Alanı (16:9 ve 9:16) --- */
+        /* --- Ana Etkinlik Alanı --- */
         .activity-container {
             position: relative;
             background: #ffffff;
@@ -38,53 +40,78 @@
             display: flex;
             flex-direction: column;
             width: 90vw;
-            height: calc(90vw * 9 / 16); /* 16:9 */
+            height: calc(90vw * 9 / 16);
             max-height: 90vh;
-            max-width: calc(90vh * 16 / 9); /* 16:9 */
+            max-width: calc(90vh * 16 / 9);
         }
-
-        /* --- Başlık ve İlerleme Çubuğu --- */
+        
+        /* --- Üst Menü (Header) --- */
         .header {
-            padding: 15px 25px;
+            padding: 10px 20px;
             border-bottom: 1px solid #dee2e6;
             display: grid;
-            grid-template-areas: "progress instruction title"; /* Sağ - Orta - Sol (RTL'de) */
-            grid-template-columns: 1fr auto 1fr; 
+            grid-template-areas: "progress instruction buttons";
+            grid-template-columns: 200px 1fr auto; 
             align-items: center;
-            gap: 25px;
+            gap: 20px;
+            background: #fff;
+            z-index: 10;
+        }
+
+        .top-buttons {
+            grid-area: buttons;
+            display: flex;
+            gap: 10px; 
+            justify-content: flex-end;
+        }
+
+        .icon-btn {
+            background: var(--btn-bg);
+            color: #555;
+            border: 1px solid #ccc;
+            border-radius: 1.5vmin;
+            cursor: pointer;
+            width: clamp(35px, 7vmin, 50px);
+            height: clamp(35px, 7vmin, 50px);
+            padding: 0;
+            text-decoration: none; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s, transform 0.1s;
+            flex-shrink: 0;
+        }
+        .icon-btn:hover {
+            background: var(--btn-hover);
+        }
+        .icon-btn:active {
+            transform: scale(0.95);
+        }
+        .icon-btn svg {
+            width: clamp(20px, 4vmin, 28px);
+            height: clamp(20px, 4vmin, 28px);
+            fill: currentColor;
         }
         
-        .header h2 { /* Başlık (Solda) */
-            grid-area: title;
-            margin: 0;
-            font-size: 2rem; /* BÜYÜTÜLDÜ */
-            color: #333;
-            font-weight: 700;
-            text-align: left;
-        }
-        
-        #instruction-text { /* Yönerge (Ortada) */
+        #instruction-text { 
             grid-area: instruction;
-            text-align: center;
-            font-size: 1.6rem; /* BÜYÜTÜLDÜ */
+            text-align: center; 
+            font-size: 2.2rem;
             font-weight: 700;
             color: #555;
-            background: #f1f3f5;
-            padding: 5px 15px;
-            border-radius: 20px;
         }
         
-        .progress-container { /* İlerleme Çubuğu (Sağda) */
+        .progress-container { 
             grid-area: progress;
             display: flex;
             align-items: center;
             gap: 15px;
             justify-content: flex-start;
             width: 200px;
-            direction: ltr; 
+            direction: ltr;
         }
         #progress-display {
-            font-size: 1.5rem; /* BÜYÜTÜLDÜ */
+            font-size: 1.5rem;
             font-weight: bold;
             color: var(--accent-color);
             flex-shrink: 0;
@@ -104,7 +131,6 @@
             transition: width 0.4s ease, background-color 0.4s ease;
         }
 
-
         /* --- Asıl Etkinlik Alanı --- */
         .activity-area {
             flex-grow: 1;
@@ -113,14 +139,61 @@
             flex-direction: column;
             justify-content: center;
             overflow-y: auto;
+            position: relative;
         }
 
-        /* --- 1. Soru Tipi: Test (Quiz) --- */
+        /* --- ALT MENÜ (Footer) --- */
+        .footer-nav {
+            padding: 10px 20px;
+            background: #f8f9fa;
+            border-top: 1px solid #dee2e6;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 10;
+            direction: ltr; 
+        }
+
+        .nav-btn {
+            background: #fff;
+            color: var(--accent-color);
+            border: 2px solid var(--accent-color);
+            border-radius: 10px;
+            cursor: pointer;
+            width: clamp(50px, 10vmin, 65px);
+            height: clamp(40px, 8vmin, 50px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .nav-btn:hover {
+            background: var(--accent-color);
+            color: #fff;
+        }
+        /* Disabled (Pasif) Durum */
+        .nav-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            border-color: #ccc;
+            color: #999;
+            background: #e9e9e9;
+            box-shadow: none;
+        }
+        .nav-btn svg {
+            width: clamp(24px, 5vmin, 32px);
+            height: clamp(24px, 5vmin, 32px);
+            fill: currentColor;
+        }
+
+        /* --- Soru Tipi: Test (Quiz) --- */
         .quiz-container {
             width: 100%;
+            padding-bottom: 10px;
         }
         .question {
-            font-size: 3.8rem; /* BÜYÜTÜLDÜ */
+            font-size: 4.2rem;
             font-weight: 700;
             text-align: center;
             margin-bottom: 30px;
@@ -131,18 +204,18 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 10px;
+            gap: 12px; 
         }
         .option {
             width: 500px;
             max-width: 100%;
             box-sizing: border-box;
-            padding: 2px;
-            font-size: 2.8rem; /* BÜYÜTÜLDÜ */
+            padding: 10px 15px;
+            font-size: 2.8rem;
             font-family: var(--font-arabic);
             background-color: var(--bg-light);
             border: 2px solid #ced4da;
-            border-radius: 6px;
+            border-radius: 8px;
             cursor: pointer;
             transition: all 0.2s ease;
             text-align: center;
@@ -151,104 +224,91 @@
             border-color: var(--accent-color);
             background-color: #eef5ff;
         }
-
-        /* --- 2. Soru Tipi: Sıralama (Scramble) --- */
-        .scramble-container {
-            display: flex;
-            flex-direction: column;
-            height: 100%;
-        }
-        .drop-zone, .drag-zone {
-            border: 2px dashed #d0d0d0;
-            border-radius: 8px;
-            padding: 15px;
-            margin: 10px 0;
-            min-height: 120px;
-            background: var(--bg-light);
-            display: flex;
-            flex-wrap: wrap;
-            align-content: flex-start;
-        }
-        .drop-zone {
-            border-style: solid;
-            border-color: var(--accent-color);
-            font-size: 2.5rem; /* BÜYÜTÜLDÜ */
-            justify-content: center;
-        }
-        .drag-zone {
-             justify-content: center;
-             flex-grow: 1;
-        }
-        .word-item {
-            padding: 12px 20px;
-            color: white;
-            font-size: 2.8rem; /* BÜYÜTÜLDÜ */
-            font-weight: 700;
-            margin: 8px;
-            border-radius: 8px;
-            cursor: grab;
-            user-select: none;
-            transition: all 0.2s;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
         
-        .word-item:hover {
-            filter: brightness(85%);
+        .option.correct-answer {
+            background-color: #d4edda !important;
+            border-color: #28a745 !important;
+            color: #155724 !important;
         }
-        .word-item.dragging {
-            opacity: 0.5;
-            cursor: grabbing;
+        .option.wrong-answer {
+            background-color: #f8d7da !important;
+            border-color: #dc3545 !important;
+            color: #721c24 !important;
         }
-        
-        #check-scramble-btn, #reset-scramble-btn {
-            padding: 15px 30px;
-            font-size: 2rem; /* BÜYÜTÜLDÜ */
-            font-family: var(--font-arabic);
-            font-weight: 700;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: background-color 0.2s;
-            margin: 5px;
-        }
-        #check-scramble-btn {
-            background-color: var(--success-color);
-            color: white;
-        }
-        #reset-scramble-btn {
-            background-color: var(--danger-color);
-            color: white;
-        }
-        .scramble-controls {
-            display: flex;
-            justify-content: center;
-            margin-top: 15px;
+        .option.locked {
+            cursor: default;
         }
 
-        /* --- Geri Bildirim Ekranı (✔ / ❌) --- */
-        .feedback-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
+        /* --- Ara Özet (Round Summary) --- */
+        .summary-container {
             width: 100%;
             height: 100%;
-            background: rgba(255, 255, 255, 0.95);
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
-            font-size: 15rem;
-            z-index: 200;
-            visibility: hidden;
-            opacity: 0;
-            transition: opacity 0.3s ease;
         }
-        .feedback-overlay.show {
-            visibility: visible;
-            opacity: 1;
+        .summary-title {
+            font-size: 3rem;
+            color: var(--accent-color);
+            margin-bottom: 15px;
+            text-align: center;
         }
-        .feedback-overlay .correct { color: var(--success-color); }
-        .feedback-overlay .incorrect { color: var(--danger-color); }
-        
+        .summary-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            width: 90%;
+            max-width: 800px;
+            overflow-y: auto;
+            flex-grow: 1;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            background: #fff;
+        }
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 20px;
+            border-bottom: 1px solid #f0f0f0;
+            font-size: 1.8rem;
+        }
+        .summary-item:last-child {
+            border-bottom: none;
+        }
+        .summary-item.is-correct {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        .summary-item.is-wrong {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        .summary-question-text {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 80%;
+        }
+        .summary-icon {
+            font-weight: bold;
+            font-size: 2rem;
+        }
+        .summary-btn {
+            margin-top: 20px;
+            background: var(--accent-color);
+            color: #fff;
+            border: none;
+            padding: 10px 40px;
+            font-size: 2rem;
+            border-radius: 10px;
+            cursor: pointer;
+            font-family: var(--font-arabic);
+        }
+        .summary-btn:hover {
+            background-color: #0056b3;
+        }
+
         /* --- Bitiş Ekranı --- */
         #finish-screen {
             text-align: center;
@@ -261,29 +321,25 @@
             height: 100%;
         }
         #finish-screen p {
-            font-size: 3.5rem; /* BÜYÜTÜLDÜ */
+            font-size: 3.5rem;
             margin: 10px 0;
         }
         
         .score-display {
             display: flex;
             gap: 30px;
-            font-size: 2.8rem; /* BÜYÜTÜLDÜ */
+            font-size: 2.8rem;
             margin: 20px 0;
             direction: ltr;
         }
         .score-item {
             font-weight: 700;
         }
-        .score-correct {
-            color: var(--success-color);
-        }
-        .score-incorrect {
-            color: var(--danger-color);
-        }
+        .score-correct { color: var(--success-color); }
+        .score-incorrect { color: var(--danger-color); }
 
         #replay-button {
-            font-size: 4.5rem; /* BÜYÜTÜLDÜ */
+            font-size: 4.5rem;
             background: none;
             border: none;
             cursor: pointer;
@@ -296,74 +352,61 @@
             background-color: #f0f0f0;
         }
 
-        /* --- Mobil Düzen (Küçük boyutlar korunuyor) --- */
+        /* --- Mobil Düzen --- */
         @media (orientation: portrait) {
             .activity-container {
-                width: 95vw;
-                height: calc(95vw * 16 / 9); /* 9:16 */
+                width: 98vw;
+                height: calc(98vw * 16 / 9); /* 9:16 */
                 max-height: 95vh;
-                max-width: calc(95vh * 9 / 16); /* 9:16 */
+                max-width: calc(95vh * 9 / 16);
             }
 
-            /* Mobil: Başlık Düzeni */
             .header {
                 grid-template-areas: 
-                    "progress title"
+                    "progress buttons"
                     "instruction instruction";
-                grid-template-columns: 1fr 1fr;
-                gap: 10px;
-                padding: 10px 15px;
-            }
-
-            .progress-container {
-                width: auto; 
-            }
-
-            .header h2 {
-                font-size: 1.3rem; 
-            }
-
-            #instruction-text {
-                font-size: 1.2rem; 
-            }
-
-            #progress-display {
-                font-size: 1.2rem; 
-            }
-
-            /* Mobil: Test Şıkları */
-            .options {
-                gap: 8px; 
-            }
-            .option {
-                font-size: 1.6rem; 
+                grid-template-columns: 1fr auto; 
+                gap: 8px;
                 padding: 10px;
             }
-            .question {
-                font-size: 2.2rem; 
-            }
 
-            /* Mobil Cümle Sıralama */
-            .scramble-container .word-item {
-                font-size: 1.8rem; 
-                padding: 8px 15px; 
-                margin: 5px;
-            }
-            .scramble-container .drop-zone {
-                font-size: 1.8rem; 
-                min-height: 80px;  
-            }
-             .scramble-container .drag-zone {
-                min-height: 100px; 
-            }
-            .scramble-container .scramble-controls {
-                margin-top: 5px; 
-            }
-            .scramble-container #check-scramble-btn,
-            .scramble-container #reset-scramble-btn {
-                font-size: 1.5rem; 
-                padding: 10px 20px;
-            }
+            .progress-container { width: auto; }
+            #instruction-text { font-size: 1.4rem; }
+            #progress-display { font-size: 1.2rem; }
+
+            .options { gap: 8px; }
+            .option { font-size: 1.8rem; padding: 10px; }
+            .question { font-size: 2.2rem; margin-bottom: 20px; }
+            
+            .footer-nav { padding: 8px 15px; }
+            .summary-question-text { font-size: 1.4rem; }
+        }
+
+        /* --- Tam Ekran --- */
+        #fullscreen-btn .icon-open { display: block; }
+        #fullscreen-btn .icon-close { display: none; }
+        body.fullscreen #fullscreen-btn .icon-open { display: none; }
+        body.fullscreen #fullscreen-btn .icon-close { display: block; }
+
+        body.fullscreen .activity-container {
+            width: 100vw;
+            height: 100vh;
+            max-height: 100vh;
+            max-width: 100vw;
+            border-radius: 0;
+            box-shadow: none;
+        }
+        
+        @keyframes shake {
+            0% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            50% { transform: translateX(10px); }
+            75% { transform: translateX(-10px); }
+            100% { transform: translateX(0); }
+        }
+
+        .shake {
+            animation: shake 0.5s ease-in-out;
         }
 
     </style>
@@ -371,139 +414,92 @@
 <body>
 
     <div class="activity-container">
-        
         <div class="header">
             <div class="progress-container">
-                <div id="progress-display">0 / 20</div>
+                <div id="progress-display">........</div> 
                 <div class="progress-bar-container">
                     <div id="progress-bar"></div>
                 </div>
             </div>
             
-            <div id="instruction-text">...</div>
+            <div id="instruction-text">........</div>
+            
+            <div class="top-buttons">
+                <button id="fullscreen-btn" class="icon-btn" title="Tam Ekran">
+                    <svg class="icon-open" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M5 10h2V7h3V5H5v5zM14 5v2h3v3h2V5h-5zM5 19v-5h2v3h3v2H5zM14 19v-2h3v-3h2v5h-5z"/>
+                    </svg>
+                    <svg class="icon-close" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M5 16h3v3h2v-5H5v2zm3-8H5v2h5V5H8v3zm6 11h2v-3h3v-2h-5v5zm2-11V5h-2v5h5V8h-3z"/>
+                    </svg>
+                </button>
 
-            <h2>أَكْتَشِفُ نَفْسي</h2>
-        </div>
-
-        <div class="activity-area" id="activity-area">
+                <a href="index.html" class="icon-btn" title="Ana Sayfa">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+                    </svg>
+                </a>
             </div>
-
-        <div class="feedback-overlay" id="feedback-overlay">
-            <span id="feedback-icon"></span>
+        </div> 
+        
+        <div class="activity-area" id="activity-area"></div>
+        
+        <div class="footer-nav" id="footer-nav">
+            <button id="prev-btn" class="nav-btn" title="السابق">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
+                </svg>
+            </button>
+            
+            <button id="next-btn" class="nav-btn" title="التالي">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                     <path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/>
+                </svg>
+            </button>
         </div>
-
     </div>
 
     <script>
-        // --- ETKİNLİK VERİLERİ ---
-        // 's' (cümle) ve 'w' (kelimeler) arasındaki TÜM hareke tutarsızlıkları giderildi.
-        // 's' dizisi 'ana doğru' kabul edildi ve 'w' dizisi buna göre yeniden oluşturuldu.
-        
-        const activitiesData = [
+       // --- ETKİNLİK VERİLERİ ---
+      const activitiesData = [
             { // --- TUR 1: 1. DERS (Sağlık) ---
                 quiz: [
-                    { q: "ما بِك؟", o: ["عِندي صُداع", "أُحِبُّ كُرَة القَدَم", "هِوايَتي القِراءَة", "أَذْهَبُ إِلى المَدْرَسَة", "هَذا كِتاب"], a: 0 },
-                    { q: "بِماذا تَشْعُر؟", o: ["أَشعُرُ بِأَلَم", "لا آكُل", "هِيَ تَلعَب", "أَنا مُعَلِّم", "عِندي سَيّارَة"], a: 0 },
-                    { q: "هَل عِنْدَكَ دَواء؟", o: ["نَعَم، عِندي", "نَعَم، أُفَضِّل", "لِأَنَّهُ مُفيد", "في وَقْت الفَراغ", "أَنا مِن تُركِيا"], a: 0 },
-                    { q: "الطَّبيب: ... تَشْرَب الماء البارِد", o: ["لا", "أَنا", "هُوَ", "في", "مِن"], a: 0 },
-                    { q: "... تَأْخُذُ الدَّواء في اليَوْم؟", o: ["كَم مَرَّة", "هِوَايَتِي القِرَاءَة", "عِنْدي صُداع", "لِأَنَّها مُفيدَة", "أَنا مَريض"], a: 0 }
-                ],
-                scramble: [
-                    // --- SENKRONİZE EDİLDİ ---
-                    { s: "يَجِبُ عَلَيْك أَن تَنام", w: ["يَجِبُ", "عَلَيْك", "أَن", "تَنام"] },
-                    // --- SENKRONİZE EDİLDİ ---
-                    { 
-                        s: "أَشعُرُ بِأَلَم في رَأْسي", 
-                        w: ["أَشعُرُ", "بِأَلَم", "في", "رَأْسي"] 
-                    },
-                    // --- SENKRONİZE EDİLDİ ---
-                    { s: "الوِقايَة خَيْر مِن العِلاج", w: ["الوِقايَة", "خَيْر", "مِن", "العِلاج"] }, 
-                    // --- SENKRONİZE EDİLDİ ---
-                    { s: "الطُّهور شَطْر الإيمان", w: ["الطُّهور", "شَطْر", "الإيمان"] },
-                    // --- SENKRONİZE EDİLDİ ---
-                    { 
-                        s: ["تَناوَل المَريض الدَّواء", "المَريض تَناوَل الدَّواء"], 
-                        w: ["تَناوَل", "المَريض", "الدَّواء"] 
-                    }
-                ]
-            },
-            { // --- TUR 2: 2. DERS (Hobiler) ---
-                quiz: [
-                    { q: "ما هِوايَتُك؟", o: ["هِوايَتي قِراءَة الكُتُب", "عِنْدي زُكام", "أَشْعُرُ بِمَغْص", "لَا أَستَطيع", "شَفاكَ الله"], a: 0 },
-                    { q: "ماذا تَفْعَلُ في وَقْت فَراغِك؟", o: ["أُشاهِد التِّلْفاز", "أَذْهَب إِلى المُسْتَشْفى", "عِنْدي صُداع", "هَذا دَواء", "الجَوّ بارِد"], a: 0 }, // Latin harf 'fAz' düzeltildi
-                    { q: "أَيّ رِياضَة تُفَضِّل؟", o: ["أُفَضِّلُ كُرَة القَدَم", "أَنا مَريض", "هُوَ صَيْدَلِيّ", "آكُل الخَضْرَوات", "أَغْسِلُ يَدي"], a: 0 },
+                    { q: "ما بِك؟", o: ["عِندي صُداع.", "أُحِبُّ كُرَة القَدَم.", "هِوايَتي القِراءَة.", "أَذْهَبُ إِلى المَدْرَسَة.", "هَذا كِتاب."], a: 0 },
+                    { q: "بِماذا تَشْعُر؟", o: ["أَشعُرُ بِأَلَم.", "لا آكُلُ.", "هِيَ تَلْعَبُ.", "أَنا مُعَلِّم.", "عِنْدي سَيّارَة."], a: 0 },
+                    { q: "هَلْ عِنْدَكَ دَواء؟", o: ["نَعَم، عِنْدي.", "نَعَم، أُفَضِّلُ.", "لِأَنَّهُ مُفيد.", "في وَقْت الفَراغ.", "أَنا مِن تُرْكِيا."], a: 0 },
+                    { q: "الطَّبيب: ... تَشْرَبُ الماء البارِد.", o: ["لا", "أَنا", "هُوَ", "في", "مِن"], a: 0 },
+                    { q: "... تَأْخُذُ الدَّواء في اليَوْم؟", o: ["كَم مَرَّة", "هِوايَتي القِراءَة.", "عِنْدي صُداع.", "لِأَنَّها مُفيدَة.", "أَنا مَريض."], a: 0 }, 
+                    { q: "ما هِوايَتُك؟", o: ["هِوايَتي قِراءَة الكُتُب.", "عِنْدي زُكام.", "أَشْعُرُ بِمَغْص.", "لا أَسْتَطيعُ.", "شَفاكَ الله."], a: 0 },
+                    { q: "ماذا تَفْعَلُ في وَقْت فَراغِك؟", o: ["أُشاهِدُ التِّلْفاز.", "أَذْهَبُ إِلى المُسْتَشْفى.", "عِنْدي صُداع.", "هَذا دَواء.", "الجَوّ بارِد."], a: 0 },
+                    { q: "أَيّ رِياضَة تُفَضِّل؟", o: ["ُأُفَضِّلُ كُرَة القَدَم.", "أَنا مَريض.", "هُوَ صَيْدَلِيّ.", "آكُل الخَضْرَوات.", "أَغْسِلُ يَدي."], a: 0 },
                     { q: "... تُحِبُّ الرِّياضَة؟", o: ["لِماذا", "ما", "مِن", "إِلى", "في"], a: 0 },
-                    { q: "أُحِبُّ الرِّياضَة ... مُفيدَة", o: ["لِأَنَّها", "عَلى", "أَم", "في", "مَع"], a: 0 }
-                ],
-                scramble: [
-                    // --- SENKRONİZE EDİLDİ ('عَلَى' olarak standartlaştırıldı) ---
-                    { 
-                        s: ["أُفَضِّلُ الشّاي عَلَى القَهْوَة", "أُفَضِّلُ القَهْوَة عَلَى الشّاي"], 
-                        w: ["أُفَضِّلُ", "الشّاي", "عَلَى", "القَهْوَة"] 
-                    },
-                    // --- SENKRONİZE EDİLDİ ---
-                    { 
-                        s: [
-                            "مَا رَأيُكَ فِي كُرَة السَّلّة", 
-                            "فِي كُرَة السَّلّة مَا رَأيُكَ"
-                        ], 
-                        w: ["مَا", "رَأيُكَ", "فِي", "كُرَة", "السَّلّة"] 
-                    },
-                    // --- SENKRONİZE EDİLDİ ---
-                    { s: "أَنا أَهتَمُّ بِالموسيقى", w: ["أَنا", "أَهتَمُّ", "بِالموسيقى"] },
-                    // --- SENKRONİZE EDİLDİ (Sizin istediğiniz irab ile) ---
-                    { 
-                        s: [
-                            "أَلْعَبُ كُرَةَ القَدَمِ أَحْيَانًا", 
-                            "أَحْيَانًا أَلْعَبُ كُرَةَ القَدَمِ",
-                            "أَلْعَبُ أَحْيَانًا كُرَةَ القَدَمِ"
-                        ], 
-                        w: ["أَلْعَبُ", "كُرَةَ", "القَدَمِ", "أَحْيَانًا"] 
-                    },
-                    // --- SENKRONİZE EDİLDİ (Sizin istediğiniz irab ile) ---
-                    { s: "الرِّياضَةُ مُفيدَةٌ لِلجِسْمِ", w: ["الرِّياضَةُ", "مُفيدَةٌ", "لِلجِسْمِ"] }
+                    { q: "أُحِبُّ الرِّياضَة ... مُفيدَة.", o: ["لِأَنَّها", "عَلى", "أَم", "في", "مَع"], a: 0 }
                 ]
             }
         ];
-        
-        // Veritabanı Temizliği (Gözden kaçan harfler v29)
-        activitiesData[0].quiz[2].o[0] = "نَعَم، عِندي";
-        activitiesData[0].quiz[2].o[2] = "لِأَنَّهُ مُفيد";
-        activitiesData[0].quiz[4].o[2] = "عِندي صُداع";
-        activitiesData[0].quiz[4].o[3] = "لِأَنَّها مُفيدَة";
-        activitiesData[1].quiz[0].o[1] = "عِنْدي زُكام";
-        activitiesData[1].quiz[1].o[2] = "عِنْدي صُداع";
-        
-        // --- SENKRONİZASYON DÜZELTMESİ (Latin harf 'fAz' -> 'فاز') ---
-        activitiesData[1].quiz[1].o[0] = "أُشاهِد التِّلْفاز";
 
-
-        // --- Gerekli Elementler ---
+        // --- Elementler ---
         const activityArea = document.getElementById('activity-area');
         const instructionText = document.getElementById('instruction-text');
         const progressDisplay = document.getElementById('progress-display');
         const progressBar = document.getElementById('progress-bar');
-        const feedbackOverlay = document.getElementById('feedback-overlay');
-        const feedbackIcon = document.getElementById('feedback-icon');
+        const prevBtn = document.getElementById('prev-btn'); 
+        const nextBtn = document.getElementById('next-btn'); 
+        const footerNav = document.getElementById('footer-nav');
 
-        // --- Renk Paleti ---
-        const colorPalette = [
-            '#007bff', '#dc3545', '#28a745', '#ffc107', '#17a2b8', '#6f42c1', '#fd7e14'
-        ];
-
-        // --- Ses Değişkenleri ---
+        // --- Ses ---
         let audioCtx = null;
-
-        // --- Durum Değişkenleri ---
+        
+        // --- Durum ---
         let activityQueue = [];
         let currentActivityIndex = 0;
         let grandTotalActivities = 0;
         let scoreCorrect = 0;
         let scoreIncorrect = 0;
-        let currentTouchEventItem = null; // Dokunma için
+        let allRounds = []; 
+        let currentRoundIndex = 0;
+        let autoNextTimer = null; 
 
-
-        // --- SES FONKSİYONLARI ---
         function initAudioContext() {
             if (!audioCtx) {
                 audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -511,14 +507,13 @@
         }
         
         function playSound(type) {
-            if (!audioCtx) return; 
+            if (!audioCtx) return;
             const oscillator = audioCtx.createOscillator();
             const gainNode = audioCtx.createGain();
             oscillator.connect(gainNode);
             gainNode.connect(audioCtx.destination);
             oscillator.type = 'sine';
             const now = audioCtx.currentTime;
-
             if (type === 'touch') {
                 oscillator.frequency.setValueAtTime(200, now);
                 gainNode.gain.setValueAtTime(0.1, now);
@@ -543,9 +538,7 @@
         }
         
         document.body.addEventListener('click', initAudioContext, { once: true });
-
-
-        // --- Fisher-Yates Karıştırma Fonksiyonu ---
+        
         function shuffle(array) {
             for (let i = array.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
@@ -554,44 +547,49 @@
             return array;
         }
 
-        // --- Aktiviteleri (Test > Sıralama) sırasıyla hazırla ---
-        function createActivityQueue() {
-            const quizActivities = [];
-            const scrambleActivities = [];
+        // --- DÜZENLENDİ: Tüm soruları TEK TUR olarak ayarlar ---
+        function prepareRounds() {
+            const allQuestions = activitiesData[0].quiz;
+            const preparedQuestions = allQuestions.map(q => ({
+                ...q,
+                isSolved: false,
+                selectedOptionText: null,
+                userIsCorrect: false 
+            }));
 
-            activitiesData.forEach(round => {
-                round.quiz.forEach(quizData => {
-                    quizActivities.push({ type: 'quiz', data: quizData });
-                });
-                round.scramble.forEach(scrambleData => {
-                    scrambleActivities.push({ type: 'scramble', data: scrambleData });
-                });
-            });
-            
-            const shuffledQuiz = shuffle(quizActivities);
-            const shuffledScramble = shuffle(scrambleActivities);
-
-            activityQueue = [...shuffledQuiz, ...shuffledScramble];
-            grandTotalActivities = activityQueue.length;
+            // Tek tur yapıldı
+            allRounds = [preparedQuestions]; 
+            currentRoundIndex = 0;
         }
 
-        // --- ETKİNLİK YÜKLEYİCİ ---
+        function loadCurrentRound() {
+            if (currentRoundIndex >= allRounds.length) return;
+            const currentRoundQuestions = allRounds[currentRoundIndex];
+            activityQueue = shuffle([...currentRoundQuestions]); 
+            grandTotalActivities = activityQueue.length;
+            currentActivityIndex = 0;
+        }
+
         function loadActivity() {
+            clearTimeout(autoNextTimer);
+
             activityArea.innerHTML = '';
             updateProgress();
             
-            const activity = activityQueue[currentActivityIndex];
+            const activityData = activityQueue[currentActivityIndex]; 
 
-            if (activity.type === 'quiz') {
-                instructionText.textContent = "اِخْتَر الْجَواب الصَّحيح‫.‬";
-                buildQuiz(activity.data);
-            } else { // activity.type === 'scramble'
-                instructionText.textContent = "رَتِّب الْكَلِمات لِتَكْوين جُمْلَة‫.‬";
-                buildScramble(activity.data);
+            prevBtn.disabled = (currentActivityIndex === 0);
+            
+            if (activityData.isSolved) {
+                nextBtn.disabled = false;
+            } else {
+                nextBtn.disabled = true; 
             }
+
+            instructionText.textContent = "اِخْتَر الجَواب الصَّحيح."; 
+            buildQuiz(activityData);
         }
 
-        // --- 1. Test Arayüzünü Oluştur ---
         function buildQuiz(data) {
             const quizContainer = document.createElement('div');
             quizContainer.className = 'quiz-container';
@@ -610,182 +608,187 @@
                     isCorrect: (index === data.a)
                 };
             });
-
+            
             const shuffledOptions = shuffle(optionsToShuffle);
             
             shuffledOptions.forEach(option => {
                 const optionButton = document.createElement('button');
                 optionButton.className = 'option';
                 optionButton.textContent = option.text;
-                optionButton.onclick = () => {
-                    playSound('touch');
-                    checkQuizAnswer(option.isCorrect); 
-                };
+                
+                if (data.isSolved) {
+                    optionButton.classList.add('locked');
+                    optionButton.disabled = true;
+
+                    if (option.isCorrect) {
+                        optionButton.classList.add('correct-answer');
+                    }
+
+                    if (data.selectedOptionText === option.text && !option.isCorrect) {
+                        optionButton.classList.add('wrong-answer');
+                    }
+                } else {
+                    optionButton.onclick = () => {
+                        playSound('touch');
+                        checkQuizAnswer(option.isCorrect, option.text, optionButton, shuffledOptions); 
+                    };
+                }
+
                 optionsContainer.appendChild(optionButton);
             });
-
             quizContainer.appendChild(optionsContainer);
             activityArea.appendChild(quizContainer);
         }
 
-        // --- 2. Sıralama Arayüzünü Oluştur ---
-        function buildScramble(data) {
-            const scrambleContainer = document.createElement('div');
-            scrambleContainer.className = 'scramble-container';
+        function checkQuizAnswer(isCorrect, selectedText, clickedBtn, allOptions) {
+            const currentQuestion = activityQueue[currentActivityIndex];
+            
+            if (currentQuestion.isSolved) return;
 
-            const dropZone = document.createElement('div');
-            dropZone.id = 'drop-zone';
-            dropZone.className = 'drop-zone';
+            currentQuestion.isSolved = true;
+            currentQuestion.selectedOptionText = selectedText;
+            currentQuestion.userIsCorrect = isCorrect; 
 
-            const dragZone = document.createElement('div');
-            dragZone.id = 'drag-zone';
-            dragZone.className = 'drag-zone';
+            if (isCorrect) {
+                scoreCorrect++;
+            } else {
+                scoreIncorrect++;
+            }
 
-            const shuffledWords = shuffle([...data.w]);
-            shuffledWords.forEach((word, index) => {
-                const wordItem = document.createElement('div');
-                wordItem.className = 'word-item';
-                wordItem.textContent = word;
-                wordItem.id = `word-${index}`;
-                wordItem.draggable = true;
-                wordItem.style.backgroundColor = colorPalette[index % colorPalette.length];
-                dragZone.appendChild(wordItem);
+            const allButtons = document.querySelectorAll('.option');
+            
+            allButtons.forEach(btn => {
+                btn.classList.add('locked');
+                btn.disabled = true; 
+
+                const isThisBtnCorrect = allOptions.find(opt => opt.text === btn.textContent).isCorrect;
+                
+                if (isThisBtnCorrect) {
+                    btn.classList.add('correct-answer');
+                }
             });
 
-            const controls = document.createElement('div');
-            controls.className = 'scramble-controls';
-            
-            const checkButton = document.createElement('button');
-            checkButton.id = 'check-scramble-btn';
-            checkButton.textContent = '✔ تَحَقَّق';
-            checkButton.onclick = () => {
-                playSound('touch');
-                checkScrambleAnswer(data.s);
-            };
-            
-            const resetButton = document.createElement('button');
-            resetButton.id = 'reset-scramble-btn';
-            resetButton.textContent = '🔄 إِعادَة'; 
-            resetButton.onclick = () => {
-                playSound('touch');
-                loadActivity();
-            };
+            if (!isCorrect) {
+                clickedBtn.classList.add('wrong-answer');
+                clickedBtn.classList.add('shake'); 
+            }
 
-            controls.appendChild(resetButton);
-            controls.appendChild(checkButton);
-            
-            scrambleContainer.appendChild(dropZone);
-            scrambleContainer.appendChild(dragZone);
-            scrambleContainer.appendChild(controls);
-            activityArea.appendChild(scrambleContainer);
-
-            addDragDropListeners();
-        }
-
-        // --- CEVAP KONTROLÜ ---
-        function checkQuizAnswer(isCorrect) {
             showFeedback(isCorrect);
+            
+            nextBtn.disabled = false;
+
+            clearTimeout(autoNextTimer);
             if (isCorrect) {
-                scoreCorrect++;
-                setTimeout(nextActivity, 1200);
-            } else {
-                scoreIncorrect++;
+                autoNextTimer = setTimeout(nextActivity, 1200);
             }
         }
 
-        function checkScrambleAnswer(correctAnswers) {
-            const dropZone = document.getElementById('drop-zone');
-            const words = Array.from(dropZone.children).map(item => item.textContent);
-            const userAnswer = words.join(' ');
-            
-            let isCorrect = false;
-            if (Array.isArray(correctAnswers)) {
-                isCorrect = correctAnswers.includes(userAnswer);
-            } else {
-                isCorrect = (userAnswer === correctAnswers);
-            }
-            
-            showFeedback(isCorrect);
-            if (isCorrect) {
-                scoreCorrect++;
-                setTimeout(nextActivity, 1200);
-            } else {
-                scoreIncorrect++;
-            }
-        }
-
-        // --- Geri Bildirim (✔ / ❌) ---
         function showFeedback(isCorrect) {
             if (isCorrect) {
-                feedbackIcon.textContent = '✔';
-                feedbackIcon.className = 'correct';
                 playSound('correct');
             } else {
-                feedbackIcon.textContent = '❌';
-                feedbackIcon.className = 'incorrect';
                 playSound('incorrect');
-            }
-            feedbackOverlay.classList.add('show');
-            
-            if (!isCorrect) {
-                setTimeout(() => {
-                    feedbackOverlay.classList.remove('show');
-                }, 1200);
             }
         }
 
-        // --- Sonraki Etkinliğe Geçiş ---
         function nextActivity() {
-            feedbackOverlay.classList.remove('show');
-            currentActivityIndex++; 
-
-            if (currentActivityIndex === grandTotalActivities) {
-                showFinishScreen();
+            if (currentActivityIndex === grandTotalActivities - 1) {
+                 finishCurrentRound();
             } else {
+                currentActivityIndex++;
                 loadActivity();
             }
         }
 
-        // --- Bitiş Ekranı ---
-        function showFinishScreen() {
-            activityArea.innerHTML = `
-                <div id="finish-screen">
-                    <p>أَحْسَنْت! لَقَد أَكْمَلْتَ جَميع الأَنْشِطَة‫.‬</p>
-                    
-                    <div class="score-display">
-                        <span class="score-item score-correct">✔ ${scoreCorrect}</span>
-                        <span class="score-item score-incorrect">❌ ${scoreIncorrect}</span>
-                    </div>
+        function finishCurrentRound() {
+            showRoundSummary();
+        }
 
-                    <button id="replay-button" onclick="restartGame()">🔄</button>
-                </div>
-            `;
-            instructionText.textContent = "اِنْتَهَت الأَنْشِطَة";
-            progressDisplay.textContent = "اِكْتَمَل";
-            progressBar.style.width = '100%';
-            progressBar.style.backgroundColor = 'var(--success-color)';
+        // --- DÜZENLENDİ: Sonuç listesi ve Yenileme Butonu ---
+        function showRoundSummary() {
+            footerNav.style.display = 'none'; 
+            
+            const container = document.createElement('div');
+            container.className = 'summary-container';
+
+            const title = document.createElement('h2');
+            title.className = 'summary-title';
+            title.textContent = "نَتائِج هَذِه الجَوْلَة"; 
+            container.appendChild(title);
+
+            const list = document.createElement('ul');
+            list.className = 'summary-list';
+
+           activityQueue.forEach((q, idx) => {
+                const li = document.createElement('li');
+                li.className = `summary-item ${q.userIsCorrect ? 'is-correct' : 'is-wrong'}`;
+                
+                const qText = document.createElement('span');
+                qText.className = 'summary-question-text';
+                
+                const arabicNum = (idx + 1).toString().replace(/\d/g, d => "٠١٢٣٤٥٦٧٨٩"[d]);
+                
+                qText.textContent = `${arabicNum}. ${q.q}`;
+                
+                const icon = document.createElement('span');
+                icon.className = 'summary-icon';
+                icon.textContent = q.userIsCorrect ? '✔' : '❌';
+
+                li.appendChild(qText);
+                li.appendChild(icon);
+                list.appendChild(li);
+            });
+
+            container.appendChild(list);
+
+            // --- YENİLEME BUTONU ---
+            const restartBtn = document.createElement('button');
+            restartBtn.className = 'summary-btn';
+            restartBtn.innerHTML = "🔄 إِعادَة"; 
+            restartBtn.onclick = restartGame; 
+            
+            container.appendChild(restartBtn);
+
+            activityArea.innerHTML = '';
+            activityArea.appendChild(container);
+            
+            instructionText.textContent = "النَّتائِج"; 
+        }
+
+        function proceedToNextStep() {
+            // Bu fonksiyon artık kullanılmıyor ama kod bütünlüğü için hata vermemesi adına bırakıldı veya silinebilir.
+            // Tek tur olduğu için doğrudan restartGame kullanıyoruz.
+            restartGame();
+        }
+
+        function showFinishScreen() {
+            // Bu ekran artık kullanılmıyor çünkü 10. sorudan sonra liste ve yenile butonu çıkıyor.
+            // Ama fonksiyon referans hatası vermemesi için duruyor.
         }
         
-        // --- Oyunu Yeniden Başlat Fonksiyonu ---
         function restartGame() {
             playSound('touch');
-            
             scoreCorrect = 0;
             scoreIncorrect = 0;
-            currentActivityIndex = 0;
+            currentRoundIndex = 0; 
+            
+            footerNav.style.display = 'flex';
             
             progressBar.style.width = '0%';
             progressBar.style.backgroundColor = 'var(--accent-color)';
             
-            createActivityQueue(); 
-            loadActivity(); 
+            prepareRounds(); // Soruları ve durumu sıfırlar
+            loadCurrentRound(); // Karıştırır
+            loadActivity(); // Yükler
         }
 
-
-        // --- İlerleme Güncelleme ---
         function updateProgress() {
-            if (currentActivityIndex === grandTotalActivities) return; 
-
+            if (grandTotalActivities === 0) {
+                 progressDisplay.textContent = `0 / 0`;
+                return;
+            }
+            if (currentActivityIndex === grandTotalActivities) return;
+            
             const currentTotal = currentActivityIndex + 1;
             const percentage = (currentActivityIndex / grandTotalActivities) * 100;
             
@@ -793,99 +796,68 @@
             progressBar.style.width = `${percentage}%`;
         }
         
-        // --- Sürükle-Bırak Fonksiyonları (Basit Sona Ekleme) ---
-        function addDragDropListeners() {
-            const draggables = document.querySelectorAll('.word-item');
-            const containers = [
-                document.getElementById('drop-zone'), 
-                document.getElementById('drag-zone')
-            ];
-
-            // 1. Fare (Mouse) Sürükleme Olayları
-            draggables.forEach(draggable => {
-                draggable.addEventListener('dragstart', (e) => {
-                    draggable.classList.add('dragging');
-                    e.dataTransfer.setData('text/plain', draggable.id);
-                });
-                draggable.addEventListener('dragend', (e) => {
-                    draggable.classList.remove('dragging');
-                });
-            });
-
-            // 2. Fare (Mouse) Bırakma Olayları
-            containers.forEach(container => {
-                container.addEventListener('dragover', (e) => {
-                    e.preventDefault(); // Bırakmaya izin ver
-                });
-
-                container.addEventListener('drop', (e) => {
-                    e.preventDefault();
-                    const id = e.dataTransfer.getData('text/plain');
-                    const draggable = document.getElementById(id);
-                    if (draggable) {
-                        // Sadece sona ekle
-                        container.appendChild(draggable);
-                        draggable.classList.remove('dragging');
-                    }
-                });
-            });
-            
-            // 3. Dokunmatik Ekran Sürükleme Olayları
-            draggables.forEach(draggable => {
-                draggable.addEventListener('touchstart', (e) => {
-                    currentTouchEventItem = e.target;
-                    currentTouchEventItem.classList.add('dragging');
-                }, { passive: true });
-            });
-        }
-        
-        // Global Dokunma Olayları (Tüm sayfa için)
-        function setupGlobalTouchListeners() {
-             document.addEventListener('touchmove', (e) => {
-                if (!currentTouchEventItem) return;
-                e.preventDefault(); 
-            }, { passive: false });
-
-            document.addEventListener('touchend', (e) => {
-                if (!currentTouchEventItem) return;
-
-                const touch = e.changedTouches[0];
-                currentTouchEventItem.style.visibility = 'hidden';
-                const dropTarget = document.elementFromPoint(touch.clientX, touch.clientY);
-                currentTouchEventItem.style.visibility = 'visible';
-
-                let validDropZone = null;
-                if (dropTarget) {
-                    if (dropTarget.classList.contains('drop-zone')) {
-                        validDropZone = dropTarget;
-                    } else if (dropTarget.classList.contains('drag-zone')) {
-                        validDropZone = dropTarget;
-                    } 
-                    else if (dropTarget.closest('.drop-zone')) { 
-                        validDropZone = dropTarget.closest('.drop-zone');
-                    } else if (dropTarget.closest('.drag-zone')) {
-                        validDropZone = dropTarget.closest('.drag-zone');
-                    }
-                }
-
-                if (validDropZone) {
-                     // Sadece sona ekle
-                    validDropZone.appendChild(currentTouchEventItem);
-                }
-                
-                currentTouchEventItem.classList.remove('dragging');
-                currentTouchEventItem = null;
-            });
-        }
-
-
-        // --- Başlangıç ---
-        document.addEventListener('DOMContentLoaded', () => {
-            createActivityQueue();
-            loadActivity();
-            setupGlobalTouchListeners(); 
+        prevBtn.addEventListener('click', () => {
+            playSound('touch');
+            clearTimeout(autoNextTimer); 
+            if (currentActivityIndex > 0) {
+                currentActivityIndex--;
+                loadActivity();
+            }
         });
 
+        nextBtn.addEventListener('click', () => {
+             playSound('touch');
+             clearTimeout(autoNextTimer); 
+             
+             const currentQuestion = activityQueue[currentActivityIndex];
+             if (currentQuestion.isSolved) {
+                 nextActivity();
+             }
+        });
+
+        const fullscreenBtn = document.getElementById('fullscreen-btn');
+        fullscreenBtn.addEventListener('click', () => {
+            playSound('touch');
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(err => {
+                    console.log(`Hata: ${err.message}`);
+                });
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                }
+            }
+        });
+
+        document.addEventListener('fullscreenchange', () => {
+            if (document.fullscreenElement) {
+                document.body.classList.add('fullscreen');
+            } else {
+                document.body.classList.remove('fullscreen');
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            if(activitiesData && activitiesData.length > 0) {
+                activitiesData.forEach(round => {
+                    if(round.quiz) {
+                        round.quiz.forEach(q => {
+                            q.o = q.o.map(opt => opt.replace('tEktUb', 'تَكْتُبُ')
+                                                    .replace('tEkOni', 'تَكُونِ')
+                                                    .replace('yEzhEbu', 'يَذْهَبُ')
+                                                    .replace('tEzhEbAn', 'تَذْهَبَان')
+                                                    .replace('ElmustEşfA', 'المُسْتَشْفَى')
+                                                    .replace('müderrisan', 'مُدَرِّسان')
+                                                    );
+                        });
+                    }
+                });
+            }
+            
+            prepareRounds();
+            loadCurrentRound();
+            loadActivity();
+        });
     </script>
 </body>
 </html>
