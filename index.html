@@ -381,13 +381,50 @@
             }
             .options { gap: 10px; } /* Şıklar arasındaki boşluğu azalt */
             .option { 
-                font-size: clamp(1.2rem, 4vmin, 2.4rem); /* Şıkları KÜÇÜLT */
+                font-size: clamp(1.8rem, 4vmin, 3rem); /* Şıkları KÜÇÜLT */
                 padding: 10px; 
             }
             /* --- BİTİŞ --- */
             
             .footer-nav { padding: 8px 15px; }
             .summary-question-text { font-size: 1.4rem; }
+        }
+     
+        /* --- Yeni Kural: Mobil Yatay Düzen (Landscape) --- */
+        @media (orientation: landscape) and (max-width: 1000px) {
+            
+            /* Şıklar için yeni bir ızgara sistemi oluştur */
+            .options {
+                display: grid;
+                grid-template-columns: 1fr 1fr; /* 2 sütun */
+                grid-auto-rows: auto;
+                gap: 10px; /* Şıklar arasındaki boşluğu azalt */
+                width: 90%; /* Konteyner genişliğini ayarlama */
+                max-width: 100%;
+                margin: 0 auto;
+            }
+
+            /* Soruyu biraz küçültelim */
+             .question {
+                font-size: clamp(2.5rem, 6vmin, 4rem);
+                margin-bottom: 20px;
+            }
+            
+            /* Her şıkı ızgara öğesi olarak ayarla */
+            .option {
+                font-size: clamp(1.8rem, 3.5vmin, 2.8rem); 
+                width: auto; /* Grid'e uyum sağlaması için genişlik otomatik */
+                max-width: 100%;
+                box-sizing: border-box;
+            }
+
+            /* Beşinci (veya sonraki tek) şıkı ortalamak için */
+            /* Burada sadece ilk 5 şık olduğu varsayımıyla (5. şık 3. satır 1. sütun olacak) */
+            /* Eğer 5 şık varsa, 5. şık 3. satırın tamamını kaplar ve ortalanır */
+            .options .option:nth-child(5):nth-last-child(1) {
+                grid-column: 1 / span 2; /* İki sütunu da kapla */
+                text-align: center; /* İçindeki metni ortala */
+            }
         }
 
         /* --- Tam Ekran --- */
