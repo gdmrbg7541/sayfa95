@@ -393,13 +393,18 @@
         /* --- Yeni Kural: Mobil Yatay Düzen (Landscape) --- */
         @media (orientation: landscape) and (max-width: 1000px) {
             
+            /* Genel aktivite alanındaki dikey boşlukları azalt */
+            .activity-area {
+                padding: 10px 20px; /* Üst/Alt padding azaltıldı */
+            }
+
             /* Şıklar için yeni bir ızgara sistemi oluştur */
             .options {
                 display: grid;
                 grid-template-columns: 1fr 1fr; /* 2 sütun */
                 grid-auto-rows: auto;
-                gap: 10px; /* Şıklar arasındaki boşluğu azalt */
-                width: 90%; /* Konteyner genişliğini ayarlama */
+                gap: 8px; /* Şıklar arasındaki boşluk azaltıldı (10px -> 8px) */
+                width: 90%; 
                 max-width: 100%;
                 margin: 0 auto;
             }
@@ -407,23 +412,22 @@
             /* Soruyu biraz küçültelim */
              .question {
                 font-size: clamp(2.5rem, 6vmin, 4rem);
-                margin-bottom: 20px;
+                margin-bottom: 15px; /* Soru altındaki boşluk azaltıldı (20px -> 15px) */
             }
             
             /* Her şıkı ızgara öğesi olarak ayarla */
             .option {
-                font-size: clamp(1.8rem, 3.5vmin, 2.8rem); 
-                width: auto; /* Grid'e uyum sağlaması için genişlik otomatik */
+                font-size: clamp(1.6rem, 3vmin, 2.5rem); /* Font boyutu biraz daha küçültüldü */
+                padding: 8px 12px; /* İç dolgu azaltıldı (12px 18px -> 8px 12px) */
+                width: auto; 
                 max-width: 100%;
                 box-sizing: border-box;
             }
 
             /* Beşinci (veya sonraki tek) şıkı ortalamak için */
-            /* Burada sadece ilk 5 şık olduğu varsayımıyla (5. şık 3. satır 1. sütun olacak) */
-            /* Eğer 5 şık varsa, 5. şık 3. satırın tamamını kaplar ve ortalanır */
             .options .option:nth-child(5):nth-last-child(1) {
-                grid-column: 1 / span 2; /* İki sütunu da kapla */
-                text-align: center; /* İçindeki metni ortala */
+                grid-column: 1 / span 2; 
+                text-align: center; 
             }
         }
 
