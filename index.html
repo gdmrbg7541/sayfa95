@@ -26,7 +26,7 @@
             align-items: center;
             min-height: 100vh;
             margin: 0;
-            overflow: hidden;
+            overflow: hidden; /* Dış scrollbarları engeller, temiz görünüm sağlar */
             font-weight: 400;
         }
 
@@ -39,21 +39,21 @@
             overflow: hidden;
             display: flex;
             flex-direction: column;
-            width: 90vw;
-            height: calc(90vw * 9 / 16);
-            max-height: 90vh;
-            max-width: calc(90vh * 16 / 9);
+            width: clamp(320px, 95vw, 1400px);
+            height: calc(95vw * 9 / 16); /* 16:9 oranı korunur */
+            max-height: 95vh;
+            max-width: calc(95vh * 16 / 9);
         }
         
         /* --- Üst Menü (Header) --- */
         .header {
-            padding: 10px 20px;
+            padding: 15px 20px;
             border-bottom: 1px solid #dee2e6;
             display: grid;
             grid-template-areas: "progress instruction buttons";
             grid-template-columns: 200px 1fr auto; 
             align-items: center;
-            gap: 20px;
+            gap: 30px;
             background: #fff;
             z-index: 10;
         }
@@ -61,7 +61,7 @@
         .top-buttons {
             grid-area: buttons;
             display: flex;
-            gap: 10px; 
+            gap: 15px; 
             justify-content: flex-end;
         }
 
@@ -71,8 +71,8 @@
             border: 1px solid #ccc;
             border-radius: 1.5vmin;
             cursor: pointer;
-            width: clamp(35px, 7vmin, 50px);
-            height: clamp(35px, 7vmin, 50px);
+            width: clamp(30px, 6vmin, 50px); 
+            height: clamp(30px, 6vmin, 50px);
             padding: 0;
             text-decoration: none; 
             display: flex;
@@ -88,15 +88,15 @@
             transform: scale(0.95);
         }
         .icon-btn svg {
-            width: clamp(20px, 4vmin, 28px);
-            height: clamp(20px, 4vmin, 28px);
+            width: clamp(18px, 3.5vmin, 28px);
+            height: clamp(18px, 3.5vmin, 28px);
             fill: currentColor;
         }
         
         #instruction-text { 
             grid-area: instruction;
             text-align: center; 
-            font-size: 2.2rem;
+            font-size: clamp(1.5rem, 4.5vmin, 2.8rem);
             font-weight: 700;
             color: #555;
         }
@@ -190,28 +190,28 @@
         /* --- Soru Tipi: Test (Quiz) --- */
         .quiz-container {
             width: 100%;
-            padding-bottom: 10px;
+            padding-bottom: 15px;
         }
         .question {
-            font-size: 4.2rem;
+            font-size: clamp(3rem, 7vmin, 5rem);
             font-weight: 700;
             text-align: center;
             margin-bottom: 30px;
             color: #212529;
-            line-height: 1.5;
+            line-height: 1;
         }
         .options {
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 12px; 
+            gap: clamp(15px, 1vmin, 20px);
         }
         .option {
-            width: 500px;
-            max-width: 100%;
+            width: 600px;
+            max-width: 95%;
             box-sizing: border-box;
-            padding: 10px 15px;
-            font-size: 2.8rem;
+            padding: 12px 18px;
+            font-size: clamp(2rem, 5vmin, 7rem);
             font-family: var(--font-arabic);
             background-color: var(--bg-light);
             border: 2px solid #ced4da;
@@ -262,7 +262,7 @@
             overflow-y: auto;
             flex-grow: 1;
             border: 1px solid #dee2e6;
-            border-radius: 8px;
+            border-radius: 15px;
             background: #fff;
         }
         .summary-item {
@@ -352,7 +352,7 @@
             background-color: #f0f0f0;
         }
 
-        /* --- Mobil Düzen --- */
+       /* --- Mobil Düzen (Soru Büyük, Şıklar Küçük) --- */
         @media (orientation: portrait) {
             .activity-container {
                 width: 98vw;
@@ -366,17 +366,25 @@
                     "progress buttons"
                     "instruction instruction";
                 grid-template-columns: 1fr auto; 
-                gap: 8px;
+                gap: 10px;
                 padding: 10px;
             }
 
             .progress-container { width: auto; }
-            #instruction-text { font-size: 1.4rem; }
-            #progress-display { font-size: 1.2rem; }
+            #instruction-text { font-size: 1.2rem; }
+            #progress-display { font-size: 1.0rem; }
 
-            .options { gap: 8px; }
-            .option { font-size: 1.8rem; padding: 10px; }
-            .question { font-size: 2.2rem; margin-bottom: 20px; }
+            /* YAPILAN DEĞİŞİKLİKLER BURADA: */
+            .question { 
+                font-size: clamp(2.5rem, 5vmin, 4rem); /* Soruyu BÜYÜT */
+                margin-bottom: 20px; 
+            }
+            .options { gap: 10px; } /* Şıklar arasındaki boşluğu azalt */
+            .option { 
+                font-size: clamp(1.2rem, 4vmin, 2.4rem); /* Şıkları KÜÇÜLT */
+                padding: 10px; 
+            }
+            /* --- BİTİŞ --- */
             
             .footer-nav { padding: 8px 15px; }
             .summary-question-text { font-size: 1.4rem; }
@@ -408,60 +416,132 @@
         .shake {
             animation: shake 0.5s ease-in-out;
         }
+        
+        /* --- YENİ BAŞLANGIÇ EKRANI STİLLERİ (SADECE TUŞ GÖRÜNÜR) --- */
+        #start-screen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #e9ecef; /* Konteynerin dışındaki body rengiyle eşleşir */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 20; 
+            text-align: center;
+        }
+        
+        /* İstenmeyen başlangıç yazılarını gizle */
+        #start-screen h1, #start-screen p { display: none; }
+        
+        #start-btn {
+            font-size: clamp(2rem, 5vmin, 3.5rem);
+            background: var(--success-color); 
+            color: #fff;
+            border: none;
+            padding: 15px 50px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-family: var(--font-arabic);
+            font-weight: 700;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        }
+        #start-btn:hover {
+            background-color: #1e7e34;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.3);
+        }
+        
+        /* Başlangıçta Ana Elemanları Gizle */
+        .header, .activity-area, .footer-nav {
+            visibility: hidden;
+            opacity: 0;
+            transition: visibility 0s 0.5s, opacity 0.5s linear; 
+        }
 
+        /* Başlatıldıktan sonra göster */
+        .activity-started .header, 
+        .activity-started .activity-area, 
+        .activity-started .footer-nav {
+            visibility: visible;
+            opacity: 1;
+            transition: opacity 0.5s linear;
+        }
+       /* --- Tam Ekran --- */
+        #fullscreen-btn .icon-open { display: block; }
+        #fullscreen-btn .icon-close { display: none; }
+        body.fullscreen #fullscreen-btn .icon-open { display: none; }
+        body.fullscreen #fullscreen-btn .icon-close { display: block; }
+
+        body.fullscreen .activity-container {
+            width: 100vw;
+            height: 100vh;
+            max-height: 100vh;
+            max-width: 100vw;
+            border-radius: 0;
+            box-shadow: none;
+        }
     </style>
 </head>
 <body>
 
-    <div class="activity-container">
-        <div class="header">
-            <div class="progress-container">
-                <div id="progress-display">........</div> 
-                <div class="progress-bar-container">
-                    <div id="progress-bar"></div>
-                </div>
-            </div>
-            
-            <div id="instruction-text">........</div>
-            
-            <div class="top-buttons">
-                <button id="fullscreen-btn" class="icon-btn" title="Tam Ekran">
-                    <svg class="icon-open" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                        <path d="M5 10h2V7h3V5H5v5zM14 5v2h3v3h2V5h-5zM5 19v-5h2v3h3v2H5zM14 19v-2h3v-3h2v5h-5z"/>
-                    </svg>
-                    <svg class="icon-close" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                        <path d="M5 16h3v3h2v-5H5v2zm3-8H5v2h5V5H8v3zm6 11h2v-3h3v-2h-5v5zm2-11V5h-2v5h5V8h-3z"/>
-                    </svg>
-                </button>
-
-                <a href="index.html" class="icon-btn" title="Ana Sayfa">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                        <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
-                    </svg>
-                </a>
-            </div>
-        </div> 
-        
-        <div class="activity-area" id="activity-area"></div>
-        
-        <div class="footer-nav" id="footer-nav">
-            <button id="prev-btn" class="nav-btn" title="السابق">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                    <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
-                </svg>
-            </button>
-            
-            <button id="next-btn" class="nav-btn" title="التالي">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                     <path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/>
-                </svg>
-            </button>
-        </div>
+<div class="activity-container" id="main-activity-container">
+    
+    <div id="start-screen">
+        <button id="start-btn" onclick="startActivity()">اِبْدَأْ</button>
     </div>
+    
+    <div class="header">
+        <div class="progress-container"> 
+            <span id="progress-display">0 / 0</span>
+            <div class="progress-bar-container">
+                <div id="progress-bar" style="width: 0%;"></div>
+            </div>
+        </div>
+        
+        <div id="instruction-text">........</div>
+        
+        <div class="top-buttons">
+            <button id="fullscreen-btn" class="icon-btn" title="Tam Ekran">
+                <svg class="icon-open" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <path d="M5 10h2V7h3V5H5v5zM14 5v2h3v3h2V5h-5zM5 19v-5h2v3h3v2H5zM14 19v-2h3v-3h2v5h-5z"/>
+                </svg>
+                <svg class="icon-close" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <path d="M5 16h3v3h2v-5H5v2zm3-8H5v2h5V5H8v3zm6 11h2v-3h3v-2h-5v5zm2-11V5h-2v5h5V8h-3z"/>
+                </svg>
+            </button>
 
-    <script>
-       // --- ETKİNLİK VERİLERİ ---
-      const activitiesData = [
+            <a href="index.html" class="icon-btn" title="Ana Sayfa">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+                </svg>
+            </a>
+        </div>
+    </div> 
+    
+    <div class="activity-area" id="activity-area"></div>
+    
+    <div class="footer-nav" id="footer-nav">
+        <button id="prev-btn" class="nav-btn" title="السابق">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
+            </svg>
+        </button>
+        
+        <button id="next-btn" class="nav-btn" title="التالي">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                 <path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/>
+            </svg>
+        </button>
+    </div>
+</div>
+
+    
+      <script>
+        const activitiesData = [
             { // --- TUR 1: 1. DERS (Sağlık) ---
                 quiz: [
                     { q: "ما بِك؟", o: ["عِندي صُداع.", "أُحِبُّ كُرَة القَدَم.", "هِوايَتي القِراءَة.", "أَذْهَبُ إِلى المَدْرَسَة.", "هَذا كِتاب."], a: 0 },
@@ -471,12 +551,15 @@
                     { q: "... تَأْخُذُ الدَّواء في اليَوْم؟", o: ["كَم مَرَّة", "هِوايَتي القِراءَة.", "عِنْدي صُداع.", "لِأَنَّها مُفيدَة.", "أَنا مَريض."], a: 0 }, 
                     { q: "ما هِوايَتُك؟", o: ["هِوايَتي قِراءَة الكُتُب.", "عِنْدي زُكام.", "أَشْعُرُ بِمَغْص.", "لا أَسْتَطيعُ.", "شَفاكَ الله."], a: 0 },
                     { q: "ماذا تَفْعَلُ في وَقْت فَراغِك؟", o: ["أُشاهِدُ التِّلْفاز.", "أَذْهَبُ إِلى المُسْتَشْفى.", "عِنْدي صُداع.", "هَذا دَواء.", "الجَوّ بارِد."], a: 0 },
-                    { q: "أَيّ رِياضَة تُفَضِّل؟", o: ["ُأُفَضِّلُ كُرَة القَدَم.", "أَنا مَريض.", "هُوَ صَيْدَلِيّ.", "آكُل الخَضْرَوات.", "أَغْسِلُ يَدي."], a: 0 },
+                    { q: "أَيّ رِياضَة تُفَضِّل؟", o: ["أُفَضِّلُ كُرَة القَدَم.", "أَنا مَريض.", "هُوَ صَيْدَلِيّ.", "آكُل الخَضْرَوات.", "أَغْسِلُ يَدي."], a: 0 },
                     { q: "... تُحِبُّ الرِّياضَة؟", o: ["لِماذا", "ما", "مِن", "إِلى", "في"], a: 0 },
                     { q: "أُحِبُّ الرِّياضَة ... مُفيدَة.", o: ["لِأَنَّها", "عَلى", "أَم", "في", "مَع"], a: 0 }
                 ]
             }
         ];
+
+        // --- Elementler ---
+        // ... (Kalan JavaScript kodunuz değişmeden kalabilir)
 
         // --- Elementler ---
         const activityArea = document.getElementById('activity-area');
@@ -486,6 +569,9 @@
         const prevBtn = document.getElementById('prev-btn'); 
         const nextBtn = document.getElementById('next-btn'); 
         const footerNav = document.getElementById('footer-nav');
+        const fullscreenBtn = document.getElementById('fullscreen-btn');
+        const startScreen = document.getElementById('start-screen');
+        const mainActivityContainer = document.getElementById('main-activity-container');
 
         // --- Ses ---
         let audioCtx = null;
@@ -498,6 +584,7 @@
         let scoreIncorrect = 0;
         let allRounds = []; 
         let currentRoundIndex = 0;
+        
         let autoNextTimer = null; 
 
         function initAudioContext() {
@@ -547,7 +634,6 @@
             return array;
         }
 
-        // --- DÜZENLENDİ: Tüm soruları TEK TUR olarak ayarlar ---
         function prepareRounds() {
             const allQuestions = activitiesData[0].quiz;
             const preparedQuestions = allQuestions.map(q => ({
@@ -557,8 +643,8 @@
                 userIsCorrect: false 
             }));
 
-            // Tek tur yapıldı
-            allRounds = [preparedQuestions]; 
+            // Tüm soruları tek bir tur olarak ayarla
+            allRounds = [preparedQuestions]; // Sadece bir tur içeren dizi
             currentRoundIndex = 0;
         }
 
@@ -645,16 +731,19 @@
             
             if (currentQuestion.isSolved) return;
 
+            // Durumu Kaydet
             currentQuestion.isSolved = true;
             currentQuestion.selectedOptionText = selectedText;
             currentQuestion.userIsCorrect = isCorrect; 
 
+            // Puanlama
             if (isCorrect) {
                 scoreCorrect++;
             } else {
                 scoreIncorrect++;
             }
 
+            // --- Görsel Güncelleme ---
             const allButtons = document.querySelectorAll('.option');
             
             allButtons.forEach(btn => {
@@ -690,6 +779,30 @@
                 playSound('incorrect');
             }
         }
+        
+        // --- BAŞLATMA FONKSİYONU ---
+        function startActivity() {
+            
+            // 1. Tam Ekranı Talep Et
+            if (document.documentElement.requestFullscreen) {
+                document.documentElement.requestFullscreen().catch(err => {
+                    console.log(`Tam ekran başlatılamadı: ${err.message}`);
+                });
+            }
+            
+            // 2. Başlangıç ekranını gizle ve ana içeriği göster
+            startScreen.style.display = 'none';
+            mainActivityContainer.classList.add('activity-started');
+
+            // 3. Ses bağlamını başlat ve ses çal
+            initAudioContext();
+            playSound('touch');
+
+            // 4. Oyunu Başlat
+            prepareRounds();
+            loadCurrentRound();
+            loadActivity();
+        }
 
         function nextActivity() {
             if (currentActivityIndex === grandTotalActivities - 1) {
@@ -704,7 +817,6 @@
             showRoundSummary();
         }
 
-        // --- DÜZENLENDİ: Sonuç listesi ve Yenileme Butonu ---
         function showRoundSummary() {
             footerNav.style.display = 'none'; 
             
@@ -741,13 +853,17 @@
 
             container.appendChild(list);
 
-            // --- YENİLEME BUTONU ---
-            const restartBtn = document.createElement('button');
-            restartBtn.className = 'summary-btn';
-            restartBtn.innerHTML = "🔄 إِعادَة"; 
-            restartBtn.onclick = restartGame; 
+            const nextBtnSummary = document.createElement('button');
+            nextBtnSummary.className = 'summary-btn';
             
-            container.appendChild(restartBtn);
+            if (currentRoundIndex + 1 >= allRounds.length) {
+                nextBtnSummary.textContent = "النهاية"; 
+            } else {
+                nextBtnSummary.textContent = "الجَوْلَة التّالِيَة"; 
+            }
+
+            nextBtnSummary.onclick = proceedToNextStep;
+            container.appendChild(nextBtnSummary);
 
             activityArea.innerHTML = '';
             activityArea.appendChild(container);
@@ -756,30 +872,43 @@
         }
 
         function proceedToNextStep() {
-            // Bu fonksiyon artık kullanılmıyor ama kod bütünlüğü için hata vermemesi adına bırakıldı veya silinebilir.
-            // Tek tur olduğu için doğrudan restartGame kullanıyoruz.
-            restartGame();
+            playSound('touch');
+            currentRoundIndex++;
+            
+            if (currentRoundIndex < allRounds.length) {
+                footerNav.style.display = 'flex'; 
+                loadCurrentRound();
+                progressBar.style.width = '0%'; 
+                loadActivity();
+            } else {
+                showFinishScreen();
+            }
         }
 
         function showFinishScreen() {
-            // Bu ekran artık kullanılmıyor çünkü 10. sorudan sonra liste ve yenile butonu çıkıyor.
-            // Ama fonksiyon referans hatası vermemesi için duruyor.
+            footerNav.style.display = 'none';
+
+            activityArea.innerHTML = `
+                <div id="finish-screen">
+                    <p>أَحْسَنْت! لَقَد أَكْمَلْتَ جَميع الأَنْشِطَة.</p>
+                    <div class="score-display">
+                        <span class="score-item score-correct">✔ ${scoreCorrect}</span>
+                        <span class="score-item score-incorrect">❌ ${scoreIncorrect}</span>
+                    </div>
+                    <button id="replay-button" onclick="restartGame()">🔄</button>
+                </div>
+            `;
+            instructionText.textContent = "اِنْتَهَت الأَنْشِطَة";
+            progressDisplay.textContent = "اِكْتَمَل";
+            progressBar.style.width = '100%';
+            progressBar.style.backgroundColor = 'var(--success-color)';
         }
         
         function restartGame() {
             playSound('touch');
-            scoreCorrect = 0;
-            scoreIncorrect = 0;
-            currentRoundIndex = 0; 
             
-            footerNav.style.display = 'flex';
-            
-            progressBar.style.width = '0%';
-            progressBar.style.backgroundColor = 'var(--accent-color)';
-            
-            prepareRounds(); // Soruları ve durumu sıfırlar
-            loadCurrentRound(); // Karıştırır
-            loadActivity(); // Yükler
+            // Yeniden başlatmak için sayfayı yeniden yüklüyoruz.
+            window.location.reload(); // İstenen işlev budur.
         }
 
         function updateProgress() {
@@ -798,7 +927,7 @@
         
         prevBtn.addEventListener('click', () => {
             playSound('touch');
-            clearTimeout(autoNextTimer); 
+            clearTimeout(autoNextTimer);
             if (currentActivityIndex > 0) {
                 currentActivityIndex--;
                 loadActivity();
@@ -807,7 +936,7 @@
 
         nextBtn.addEventListener('click', () => {
              playSound('touch');
-             clearTimeout(autoNextTimer); 
+             clearTimeout(autoNextTimer);
              
              const currentQuestion = activityQueue[currentActivityIndex];
              if (currentQuestion.isSolved) {
@@ -815,7 +944,7 @@
              }
         });
 
-        const fullscreenBtn = document.getElementById('fullscreen-btn');
+        
         fullscreenBtn.addEventListener('click', () => {
             playSound('touch');
             if (!document.fullscreenElement) {
@@ -828,7 +957,7 @@
                 }
             }
         });
-
+        
         document.addEventListener('fullscreenchange', () => {
             if (document.fullscreenElement) {
                 document.body.classList.add('fullscreen');
@@ -838,6 +967,7 @@
         });
 
         document.addEventListener('DOMContentLoaded', () => {
+            // Dil çevirileri
             if(activitiesData && activitiesData.length > 0) {
                 activitiesData.forEach(round => {
                     if(round.quiz) {
@@ -854,9 +984,7 @@
                 });
             }
             
-            prepareRounds();
-            loadCurrentRound();
-            loadActivity();
+            // Oyun, DOM yüklendiğinde otomatik başlamaz. Sadece startActivity() çağrıldığında başlar.
         });
     </script>
 </body>
